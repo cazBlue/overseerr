@@ -960,10 +960,6 @@ export class MediaRequest {
         }
 
         const tmdb = new TheMovieDb();
-        const sonarr = new SonarrAPI({
-          apiKey: sonarrSettings.apiKey,
-          url: SonarrAPI.buildUrl(sonarrSettings, '/api/v3'),
-        });
         const series = await tmdb.getTvShow({ tvId: media.tmdbId });
         const tvdbId = series.external_ids.tvdb_id ?? media.tvdbId;
 
@@ -991,6 +987,11 @@ export class MediaRequest {
             (sonarr) => sonarr.isDefault && sonarr.isAnime && sonarr.is4k === this.is4k
           ) || sonarrSettings;
         }
+
+        const sonarr = new SonarrAPI({
+          apiKey: sonarrSettings.apiKey,
+          url: SonarrAPI.buildUrl(sonarrSettings, '/api/v3'),
+        });
 
         let rootFolder = sonarrSettings.activeDirectory;
         let qualityProfile = sonarrSettings.activeProfileId;
