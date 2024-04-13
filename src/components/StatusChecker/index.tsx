@@ -37,7 +37,7 @@ const StatusChecker = () => {
     return null;
   }
 
-  if (!data) {
+  if (!data || (!data.restartRequired && !data.updateAvailable)) {
     return null;
   }
 
