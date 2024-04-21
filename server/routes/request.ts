@@ -148,7 +148,7 @@ requestRoutes.get<Record<string, unknown>, RequestResultsResponse>(
           pages: Math.ceil(requestCount / pageSize),
           pageSize,
           results: requestCount,
-          page: Math.ceil(skip / pageSize) + 1,
+          page: skip + 1,
         },
         results: requests,
       });
