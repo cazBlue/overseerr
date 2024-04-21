@@ -48,6 +48,7 @@ const messages = defineMessages({
   animerootfolder: 'Anime Root Folder',
   seasonfolders: 'Season Folders',
   server4k: '4K Server',
+  serverAnime: 'Anime Server',
   selectQualityProfile: 'Select quality profile',
   selectRootFolder: 'Select root folder',
   selectLanguageProfile: 'Select language profile',
@@ -251,6 +252,7 @@ const SonarrModal = ({ onClose, sonarr, onSave }: SonarrModalProps) => {
           animeTags: sonarr?.animeTags ?? [],
           isDefault: sonarr?.isDefault ?? false,
           is4k: sonarr?.is4k ?? false,
+          isAnime: sonarr?.isAnime ?? false,
           enableSeasonFolders: sonarr?.enableSeasonFolders ?? false,
           externalUrl: sonarr?.externalUrl,
           syncEnabled: sonarr?.syncEnabled ?? false,
@@ -291,6 +293,7 @@ const SonarrModal = ({ onClose, sonarr, onSave }: SonarrModalProps) => {
               tags: values.tags,
               animeTags: values.animeTags,
               is4k: values.is4k,
+              isAnime: values.isAnime,
               isDefault: values.isDefault,
               enableSeasonFolders: values.enableSeasonFolders,
               externalUrl: values.externalUrl,
@@ -393,6 +396,14 @@ const SonarrModal = ({ onClose, sonarr, onSave }: SonarrModalProps) => {
                   </label>
                   <div className="form-input-area">
                     <Field type="checkbox" id="is4k" name="is4k" />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="isAnime" className="checkbox-label">
+                    {intl.formatMessage(messages.serverAnime)}
+                  </label>
+                  <div className="form-input-area">
+                    <Field type="checkbox" id="isAnime" name="isAnime"/>
                   </div>
                 </div>
                 <div className="form-row">
