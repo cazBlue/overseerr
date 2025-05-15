@@ -7,6 +7,7 @@ import PlexLoginButton from '@app/components/PlexLoginButton';
 import useSettings from '@app/hooks/useSettings';
 import { useUser } from '@app/hooks/useUser';
 import { Transition } from '@headlessui/react';
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
@@ -118,41 +119,40 @@ const Login = () => {
             <Accordion single atLeastOne>
               {({ openIndexes, handleClick, AccordionContent }) => (
                 <>
-                  <button
+                  <div
                     className={`w-full cursor-default bg-gray-800 bg-opacity-70 py-2 text-center text-sm font-bold text-gray-400 transition-colors duration-200 focus:outline-none sm:rounded-t-lg ${
                       openIndexes.includes(0) && 'text-indigo-500'
                     } ${
                       settings.currentSettings.localLogin &&
                       'hover:cursor-pointer hover:bg-gray-700'
                     }`}
-                    onClick={() => handleClick(0)}
-                    disabled={!settings.currentSettings.localLogin}
                   >
-                    {intl.formatMessage(messages.signinwithplex)}
-                  </button>
+                    Login with:
+                  </div>
                   <AccordionContent isOpen={openIndexes.includes(0)}>
-                    <div className="px-10 py-8">
+                    <div className="flex px-10 py-8 ">
+                      <span className="block w-full rounded-md shadow-sm">
+                        <button
+                          type="button"
+                          className="plex-button bg-green-700"
+                          onClick={() => handleClick(1)}
+                        >
+                          <ArrowLeftOnRectangleIcon />
+                          <span>Overseerr account (use this one)</span>
+                        </button>
+                      </span>
+                    </div>
+
+                    <div className="flex px-10 py-8 ">
                       <PlexLoginButton
                         isProcessing={isProcessing}
                         onAuthToken={(authToken) => setAuthToken(authToken)}
+                        prefix={'Admins only (Plex)! '}
                       />
                     </div>
                   </AccordionContent>
                   {settings.currentSettings.localLogin && (
                     <div>
-                      <button
-                        className={`w-full cursor-default bg-gray-800 bg-opacity-70 py-2 text-center text-sm font-bold text-gray-400 transition-colors duration-200 hover:cursor-pointer hover:bg-gray-700 focus:outline-none ${
-                          openIndexes.includes(1)
-                            ? 'text-indigo-500'
-                            : 'sm:rounded-b-lg'
-                        }`}
-                        onClick={() => handleClick(1)}
-                      >
-                        {intl.formatMessage(messages.signinwithoverseerr, {
-                          applicationTitle:
-                            settings.currentSettings.applicationTitle,
-                        })}
-                      </button>
                       <AccordionContent isOpen={openIndexes.includes(1)}>
                         <div className="px-10 py-8">
                           <LocalLogin revalidate={revalidate} />
