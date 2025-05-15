@@ -41,7 +41,9 @@ const StatusChecker = () => {
     return null;
   }
 
-  return (
+  return null; //just never do updates
+
+ /* return (
     <Transition
       as={Fragment}
       enter="transition-opacity duration-300"
@@ -86,7 +88,7 @@ const StatusChecker = () => {
         </Modal>
       )}
     </Transition>
-  );
+  );*/
 };
 
 export default StatusChecker;

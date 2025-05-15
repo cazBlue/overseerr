@@ -984,7 +984,7 @@ export class MediaRequest {
         //if anime look for a default anime server and use that, fall back to default if not
         if(seriesType === 'anime') {
           sonarrSettings = settings.sonarr.find(
-            (sonarr) => sonarr.isDefault && sonarr.isAnime && sonarr.is4k === this.is4k
+            (sonarr) => sonarr.isAnime
           ) || sonarrSettings;
         }
 
