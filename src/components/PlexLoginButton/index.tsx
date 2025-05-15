@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
-  signinwithplex: 'Sign In',
+  signinwithplex: 'Sign In With Plex',
   signingin: 'Signing In…',
 });
 
@@ -15,12 +15,14 @@ interface PlexLoginButtonProps {
   onAuthToken: (authToken: string) => void;
   isProcessing?: boolean;
   onError?: (message: string) => void;
+  prefix?: string;
 }
 
 const PlexLoginButton = ({
   onAuthToken,
   onError,
   isProcessing,
+  prefix,
 }: PlexLoginButtonProps) => {
   const intl = useIntl();
   const [loading, setLoading] = useState(false);
@@ -47,15 +49,15 @@ const PlexLoginButton = ({
           setTimeout(() => getPlexLogin(), 1500);
         }}
         disabled={loading || isProcessing}
-        className="plex-button"
+        className="plex-button bg-indigo-500"
       >
         <ArrowLeftOnRectangleIcon />
         <span>
           {loading
             ? intl.formatMessage(globalMessages.loading)
             : isProcessing
-            ? intl.formatMessage(messages.signingin)
-            : intl.formatMessage(messages.signinwithplex)}
+            ? prefix + intl.formatMessage(messages.signingin)
+            : prefix + intl.formatMessage(messages.signinwithplex)}
         </span>
       </button>
     </span>

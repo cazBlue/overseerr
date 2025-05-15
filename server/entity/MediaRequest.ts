@@ -960,10 +960,6 @@ export class MediaRequest {
         }
 
         const tmdb = new TheMovieDb();
-        const sonarr = new SonarrAPI({
-          apiKey: sonarrSettings.apiKey,
-          url: SonarrAPI.buildUrl(sonarrSettings, '/api/v3'),
-        });
         const series = await tmdb.getTvShow({ tvId: media.tmdbId });
         const tvdbId = series.external_ids.tvdb_id ?? media.tvdbId;
 
@@ -985,26 +981,24 @@ export class MediaRequest {
           seriesType = sonarrSettings.animeSeriesType ?? 'anime';
         }
 
-        let rootFolder =
-          seriesType === 'anime' && sonarrSettings.activeAnimeDirectory
-            ? sonarrSettings.activeAnimeDirectory
-            : sonarrSettings.activeDirectory;
-        let qualityProfile =
-          seriesType === 'anime' && sonarrSettings.activeAnimeProfileId
-            ? sonarrSettings.activeAnimeProfileId
-            : sonarrSettings.activeProfileId;
-        let languageProfile =
-          seriesType === 'anime' && sonarrSettings.activeAnimeLanguageProfileId
-            ? sonarrSettings.activeAnimeLanguageProfileId
-            : sonarrSettings.activeLanguageProfileId;
-        let tags =
-          seriesType === 'anime'
-            ? sonarrSettings.animeTags
-              ? [...sonarrSettings.animeTags]
-              : []
-            : sonarrSettings.tags
-            ? [...sonarrSettings.tags]
-            : [];
+        //if anime look for a default anime server and use that, fall back to default if not
+        if(seriesType === 'anime') {
+          sonarrSettings = settings.sonarr.find(
+            (sonarr) => sonarr.isAnime
+          ) || sonarrSettings;
+        }
+
+        const sonarr = new SonarrAPI({
+          apiKey: sonarrSettings.apiKey,
+          url: SonarrAPI.buildUrl(sonarrSettings, '/api/v3'),
+        });
+
+        let rootFolder = sonarrSettings.activeDirectory;
+        let qualityProfile = sonarrSettings.activeProfileId;
+        let languageProfile = sonarrSettings.activeLanguageProfileId;
+        let tags = sonarrSettings.tags
+          ? [...sonarrSettings.tags]
+          : [];
 
         if (
           this.rootFolder &&
